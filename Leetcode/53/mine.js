@@ -3,21 +3,27 @@ Given an integer array nums, find the subarray with the largest sum, and return 
 */
 // [-2, 1, -3, 4, -1, 2, 1, -5, 4];
 
-var maxSubArray = function (nums) {
-	// Initialize the max sum...
-	let maxSum = nums[0];
-	// Traverse all the element through the loop...
-	for (let i = 1; i < nums.length; i++) {
-		// nums[i] represents the largest sum of all subarrays ending with index i...
-		// then its value should be the larger one between nums[i]...
-		// nums[i-1] + nums[i] (largest sum plus current number with using prefix)...
-		// calculate nums[0], nums[1]…, nums[n] while comparing each one with current largest sum...
-		let max = Math.max(0, nums[i - 1]);
-		nums[i] = max + nums[i];
-		// if nums[i] > maxSum then maxSum = nums[i]...
-		if (nums[i] > maxSum) maxSum = nums[i];
+/* ----- THIRD TRY ------ */
+
+const maxSubArray = (nums) => {
+	// max 변수를 생성하고 최저 정수값을 할당한다.
+	let max = Number.MIN_SAFE_INTEGER;
+
+	// nums 배열을 index 0부터 마지막까지 순환시킨다.
+	for (let i = 0; i < nums.length; i++) {
+		// i 의 index를 제일 첫번재 요소로 포함시켜 만들 수 있는 모든 sub array 구한다.
+
+		// 이전까지의 합을 저장해 둘 변수 prev를 만들고 nums[i]를 할당한다.
+		let prev = nums[i];
+		max = Math.max(prev, max);
+		// prev에 하나 씩 값을 더해 주도록 j를 i+1부터 순환시킨다.
+		for (let j = i + 1; j < nums.length; j++) {
+			prev += nums[j];
+			max = Math.max(prev, max);
+		}
 	}
-	return maxSum; // return the contiguous subarray which has the largest sum...
+
+	return max;
 };
 
 /* ----- SECOND TRY ------ */
